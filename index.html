@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>GifTastic</title>
+</head>
+
+<body>
+
+  <!-- <img src="https://media.giphy.com/media/l4FssXeliObIRSCmQ/giphy.gif" data-still="https://media.giphy.com/media/l4FssXeliObIRSCmQ/giphy.gif" data-animate="https://media.giphy.com/media/l4FssXeliObIRSCmQ/giphy.gif" data-state="still" class="gif">
+  <img src="https://media.giphy.com/media/bOxL3wXCzANhe/giphy.gif" data-still="https://media.giphy.com/media/bOxL3wXCzANhe/giphy.gif" data-animate="https://media.giphy.com/media/bOxL3wXCzANhe/giphy.gif" data-state="still" class="gif"> -->
+  <div class="container">
+  <div class="jumbotron">
+    <h1><center>GifTastic</center></h1>
+    <h2>Add a Topic:</h2>
+
+<!-- Topics will Get Dumped Dere -->
+    <div id="topics-view"></div>
+
+    <!-- Rendered Buttons will get Dumped Here  -->
+    <div id="buttons-view"></div>
+
+    <form id="topics-form">
+      <label for="topics-input">Add a Topic</label>
+      <input type="text" id="topics-input"><br>
+
+      <!-- Button triggers new movie to be added -->
+      <input id="add-topics" type="submit" value="Click Here">
+    </form>
+
+  <button data-topics="seafood">Seafood</button>
+  <button data-topics="kevin hart">Kevin Hart</button>
+  <button data-topics="party hard">Meme's</button>
+  <button data-topics="bacon">Bacon</button>
+  <button data-topics="dave chapelle">Dave Chapelle</button>
+  <button data-topics="relationships">Relationships</button>
+  <button data-topics="school">School</button>
+  <button data-topics="martin lawrence">Martin Lawrence</button>
+  <button data-topics="humor">Humorous</button>
+  <button data-topics="panda">Pandas</button>
+  <button data-topics="adjectives">Cute</button>
+  <button data-topics="monkey">Monkey</button>
+  <button data-topics="shrugs">Shrug</button>
+  <button data-topics="dancing">Dance</button>
+
+  <div id="gifs-appear-here">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+  //Array of topics.
+  var topics = ["reactions", "comedians", "memes", "adjectives", "bacon", "school", "pets", "dancing"];
+
+  // function displayTopicsInfo() {
+  //   var topic = $(this).attr("data-name");
+  //   var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topics + "&api_key=a2ee18b45e3a4850ac8291c1eb8cd38b";}
+
+  //   $.ajax({
+  //     url: queryURL,
+  //     method: "GET"
+  //     }).done(function(response) {
+
+  //       var topicsDiv = $("<div class='topic'>");
+  //     }
+  // }
+
+    // Adding click event listen listener to all buttons
+    $("button").on("click", function() {
+
+      $(".gifs").on("click", function() {
+      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+      var state =$(this).attr("data-state");
+      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+      // Then, set the image's data-state to animate
+      // Else set src to the data-still value
+        if (state === "still") {
+          $(this).attr("src", $(this).attr("data-animate"));
+          $(this).attr("data-state", "animate");
+        } else {
+          $(this).attr("src", $(this).attr("data-still"));
+          $(this).attr("data-state", "still");
+        }
+      });
+
+      // Grabbing and storing the data-animal property value from the button
+      var topics = $(this).attr("data-topics");
+
+      // Constructing a queryURL using the animal name
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        topics + "&api_key=a2ee18b45e3a4850ac8291c1eb8cd38b";
+
+      // Performing an AJAX request with the queryURL
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        // After data comes back from the request
+        .done(function(response) {
+          console.log(queryURL);
+
+          console.log(response);
+          // storing the data from the AJAX request in the results variable
+          var results = response.data;
+
+          // Looping through each result item
+          for (var i = 0; i < results.length; i++) {
+
+            // Creating and storing a div tag
+            var topicsDiv = $("<div>");
+
+            // Creating a paragraph tag with the result item's rating
+            var p = $("<p>").text("Rating: " + results[i].rating);
+
+            // Creating and storing an image tag
+            var topicsImage = $("<img>");
+            // Setting the src attribute of the image to a property pulled off the result item
+            topicsImage.attr("src", results[i].images.fixed_height.url);
+
+            topicsImage.addClass("gifs");
+            topicsImage.attr("data-still", "data-animate", "data-state");
+            topicsImage.attr("data-still", results[i].images.fixed_height.url);
+
+
+
+            // Appending the paragraph and image tag to the topicsDiv
+            topicsDiv.append(p);
+            topicsDiv.append(topicsImage);
+
+            // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
+            $("#gifs-appear-here").prepend(topicsDiv);
+          }
+        });
+    });
+  </script>
+</body>
+
+</html>
