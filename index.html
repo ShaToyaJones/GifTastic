@@ -10,6 +10,7 @@
 
   <!-- <img src="https://media.giphy.com/media/l4FssXeliObIRSCmQ/giphy.gif" data-still="https://media.giphy.com/media/l4FssXeliObIRSCmQ/giphy.gif" data-animate="https://media.giphy.com/media/l4FssXeliObIRSCmQ/giphy.gif" data-state="still" class="gif">
   <img src="https://media.giphy.com/media/bOxL3wXCzANhe/giphy.gif" data-still="https://media.giphy.com/media/bOxL3wXCzANhe/giphy.gif" data-animate="https://media.giphy.com/media/bOxL3wXCzANhe/giphy.gif" data-state="still" class="gif"> -->
+
   <div class="container">
   <div class="jumbotron">
     <h1><center>GifTastic</center></h1>
@@ -23,26 +24,32 @@
 
     <form id="topics-form">
       <label for="topics-input">Add a Topic</label>
-      <input type="text" id="topics-input"><br>
+      <input type="text" id="topics-input"><br><br>
 
       <!-- Button triggers new movie to be added -->
       <input id="add-topics" type="submit" value="Click Here">
+      <br><br>
     </form>
 
-  <button data-topics="seafood">Seafood</button>
-  <button data-topics="kevin hart">Kevin Hart</button>
-  <button data-topics="party hard">Meme's</button>
-  <button data-topics="bacon">Bacon</button>
-  <button data-topics="dave chapelle">Dave Chapelle</button>
-  <button data-topics="relationships">Relationships</button>
-  <button data-topics="school">School</button>
-  <button data-topics="martin lawrence">Martin Lawrence</button>
-  <button data-topics="humor">Humorous</button>
-  <button data-topics="panda">Pandas</button>
-  <button data-topics="adjectives">Cute</button>
-  <button data-topics="monkey">Monkey</button>
-  <button data-topics="shrugs">Shrug</button>
-  <button data-topics="dancing">Dance</button>
+  <div class="buttons">
+
+    <button data-topics="seafood">Seafood</button>
+    <button data-topics="kevin hart">Kevin Hart</button>
+    <button data-topics="party hard">Meme's</button>
+    <button data-topics="bacon">Bacon</button>
+    <button data-topics="dave chapelle">Dave Chapelle</button>
+    <button data-topics="relationships">Relationships</button>
+    <button data-topics="school">School</button>
+    <button data-topics="martin lawrence">Martin Lawrence</button>
+    <button data-topics="humor">Humorous</button>
+    <button data-topics="panda">Pandas</button>
+    <button data-topics="adjectives">Cute</button>
+    <button data-topics="monkey">Monkey</button>
+    <button data-topics="shrugs">Shrug</button>
+    <button data-topics="dancing">Dance</button>
+
+  </div>
+
 
   <div id="gifs-appear-here">
   </div>
@@ -65,6 +72,17 @@
   //       var topicsDiv = $("<div class='topic'>");
   //     }
   // }
+
+    $("#topics-form").on("submit", function(e){
+        e.preventDefault()
+        var div = $("<div>")
+        var input = $("#topics-input").val()
+        var p = $("<button>")
+        p.text(input)
+        div.append(p)
+        $(".buttons").append(div)
+        console.log(input)
+    });
 
     // Adding click event listen listener to all buttons
     $("button").on("click", function() {
@@ -121,7 +139,6 @@
             topicsImage.addClass("gifs");
             topicsImage.attr("data-still", "data-animate", "data-state");
             topicsImage.attr("data-still", results[i].images.fixed_height.url);
-
 
 
             // Appending the paragraph and image tag to the topicsDiv
